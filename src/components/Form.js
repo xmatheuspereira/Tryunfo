@@ -26,6 +26,7 @@ class Form extends React.Component {
             Nome
             <br />
             <input
+              id="cardName"
               data-testid="name-input"
               value={ cardName }
               onChange={ onInputChange }
@@ -36,6 +37,7 @@ class Form extends React.Component {
             Descrição
             <br />
             <textarea
+              id="cardDescription"
               data-testid="description-input"
               value={ cardDescription }
               onChange={ onInputChange }
@@ -45,26 +47,35 @@ class Form extends React.Component {
           <div>
             Attr01
             <input
+              id="cardAttr1"
               data-testid="attr1-input"
               value={ cardAttr1 }
               onChange={ onInputChange }
               type="number"
+              min="0"
+              max="90"
             />
             <br />
             Attr02
             <input
+              id="cardAttr2"
               data-testid="attr2-input"
               value={ cardAttr2 }
               onChange={ onInputChange }
               type="number"
+              min="0"
+              max="90"
             />
             <br />
             Attr03
             <input
+              id="cardAttr3"
               data-testid="attr3-input"
               value={ cardAttr3 }
               onChange={ onInputChange }
               type="number"
+              min="0"
+              max="90"
             />
           </div>
           <div>
@@ -80,6 +91,7 @@ class Form extends React.Component {
             Raridade
             <br />
             <select
+              id="cardRare"
               data-testid="rare-input"
               value={ cardRare }
               onChange={ onInputChange }
@@ -92,6 +104,7 @@ class Form extends React.Component {
           </div>
           <div>
             <input
+              id="cardTrunfo"
               data-testid="trunfo-input"
               checked={ cardTrunfo }
               onChange={ onInputChange }
