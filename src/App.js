@@ -15,6 +15,7 @@ class App extends React.Component {
     isSaveButtonDisabled: true,
     onSaveButtonClick: this.saveCard,
     cards: [],
+    hasTrunfo: false,
   };
 
   // Ref. https://pt-br.reactjs.org/docs/forms.html
@@ -63,6 +64,8 @@ class App extends React.Component {
 
   saveCard = () => {
     const createdCard = { ...this.state };
+    const { cardTrunfo } = createdCard;
+
     this.setState((previous) => ({
       cardName: '',
       cardDescription: '',
@@ -75,7 +78,13 @@ class App extends React.Component {
       isSaveButtonDisabled: true,
       cards: [...previous.cards, createdCard],
       onSaveButtonClick: this.saveCard,
+      hasTrunfo: false,
     }));
+
+    if (cardTrunfo === true) {
+      this.setState({
+        hasTrunfo: true });
+    }
   }
 
   render() {
