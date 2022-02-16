@@ -66,7 +66,7 @@ class App extends React.Component {
     const createdCard = { ...this.state };
     const { cardTrunfo } = createdCard;
 
-    this.setState((previous) => ({
+    this.setState((previousState) => ({
       cardName: '',
       cardDescription: '',
       cardAttr1: '0',
@@ -76,7 +76,7 @@ class App extends React.Component {
       cardRare: '',
       cardTrunfo: false,
       isSaveButtonDisabled: true,
-      cards: [...previous.cards, createdCard],
+      cards: [...previousState.cards, createdCard],
       onSaveButtonClick: this.saveCard,
       hasTrunfo: false,
     }));
@@ -88,6 +88,8 @@ class App extends React.Component {
   }
 
   render() {
+    const { cards } = this.state;
+
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -96,7 +98,12 @@ class App extends React.Component {
           onSaveButtonClick={ this.saveCard }
           onInputChange={ this.handleInputChange }
         />
+        <h2>Pré-visualização</h2>
         <Card { ...this.state } />
+        <div>
+          <h2>Todas as cartas</h2>
+          { cards.map((card) => <Card key={ card.cardName } { ...card } />) }
+        </div>
       </div>
     );
   }
