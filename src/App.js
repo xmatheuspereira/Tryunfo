@@ -13,6 +13,8 @@ class App extends React.Component {
     cardRare: '',
     cardTrunfo: false,
     isSaveButtonDisabled: true,
+    onSaveButtonClick: this.saveCard,
+    cards: [],
   };
 
   // Ref. https://pt-br.reactjs.org/docs/forms.html
@@ -20,7 +22,7 @@ class App extends React.Component {
   handleInputChange = ({ target }) => {
     const { id } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const validation = this.buttonValidation();
+    const validation = this.validateSaveButton();
 
     this.setState({
       [id]: value,
@@ -29,7 +31,7 @@ class App extends React.Component {
   }
 
   // Ref. https://github.com/tryber/sd-018-a-project-tryunfo/pull/11/commits/9f621fa9185ffdfcc60ee4f8c1851bb09dcc9e42
-  buttonValidation = () => {
+  validateSaveButton = () => {
     const arr = [];
     const attr1 = Number(cardAttr1.value);
     const attr2 = Number(cardAttr2.value);
@@ -59,11 +61,32 @@ class App extends React.Component {
     return arr.some((element) => element === false);
   }
 
+  saveCard = () => {
+    const createdCard = { ...this.state };
+    this.setState((previous) => ({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: '',
+      cardTrunfo: false,
+      isSaveButtonDisabled: true,
+      cards: [...previous.cards, createdCard],
+      onSaveButtonClick: this.saveCard,
+    }));
+  }
+
   render() {
     return (
       <div>
         <h1>Tryunfo</h1>
-        <Form { ...this.state } onInputChange={ this.handleInputChange } />
+        <Form
+          { ...this.state }
+          onSaveButtonClick={ this.saveCard }
+          onInputChange={ this.handleInputChange }
+        />
         <Card { ...this.state } />
       </div>
     );

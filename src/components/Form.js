@@ -98,7 +98,7 @@ class Form extends React.Component {
               onChange={ onInputChange }
               type="select"
             >
-              <option value="normal">normal</option>
+              <option value="normal">raro</option>
               <option value="raro">raro</option>
               <option value="muito raro">muito raro</option>
             </select>
