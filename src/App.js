@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import Filter from './components/Filter';
 
 class App extends React.Component {
   state = {
@@ -16,6 +17,9 @@ class App extends React.Component {
     onSaveButtonClick: this.saveCard,
     cards: [],
     hasTrunfo: false,
+    searchByName: '',
+    searchByRarity: '',
+    searchByTrunfo: false,
   };
 
   // Ref. https://pt-br.reactjs.org/docs/forms.html
@@ -79,6 +83,9 @@ class App extends React.Component {
       cards: [...previousState.cards, createdCard],
       onSaveButtonClick: this.saveCard,
       hasTrunfo: false,
+      searchByName: '',
+      searchByRarity: '',
+      searchByTrunfo: '',
     }));
 
     if (cardTrunfo === true) {
@@ -103,7 +110,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { cards } = this.state;
+    const { cards, searchByName } = this.state;
 
     return (
       <div>
@@ -115,23 +122,27 @@ class App extends React.Component {
         />
         <h2>Pré-visualização</h2>
         <Card { ...this.state } />
+        <h2>Todas as Cartas</h2>
         <div>
           {
-            cards.map((card) => (
-              <div key={ card.cardName }>
-                <Card { ...card } />
-                <button
-                  type="button"
-                  data-testid="delete-button"
-                  onClick={ () => this.removeCard(card) }
-                >
-                  Excluir
-                </button>
-              </div>
-            ))
+            cards.filter((search) => search.cardName.includes(searchByName))
+              .map((card) => (
+                <div key={ card.cardName }>
+                  <Card { ...card } />
+                  <button
+                    type="button"
+                    data-testid="delete-button"
+                    onClick={ () => this.removeCard(card) }
+                  >
+                    Excluir
+                  </button>
+                </div>
+              ))
           }
+          <Filter onInputChange={ this.handleInputChange } />
         </div>
       </div>
+
     );
   }
 }
