@@ -18,7 +18,7 @@ class App extends React.Component {
     cards: [],
     hasTrunfo: false,
     searchByName: '',
-    searchByRarity: '',
+    searchByRarity: 'todas',
     searchByTrunfo: false,
   };
 
@@ -84,7 +84,7 @@ class App extends React.Component {
       onSaveButtonClick: this.saveCard,
       hasTrunfo: false,
       searchByName: '',
-      searchByRarity: '',
+      searchByRarity: 'todas',
       searchByTrunfo: '',
     }));
 
@@ -109,8 +109,27 @@ class App extends React.Component {
     }
   }
 
+  // Lógica desenvolvida com orientação da pessoa instrutora Daniel Farias durante a mentoria e o estudante Gilson Nogueira.
   render() {
-    const { cards, searchByName } = this.state;
+    const { cards, searchByName, searchByTrunfo, searchByRarity } = this.state;
+
+    let filteredCards = cards;
+
+    if (searchByName) {
+      filteredCards = filteredCards.filter(
+        (card) => card.cardName.toLowerCase().includes(searchByName.toLowerCase()),
+      );
+    }
+    if (searchByRarity !== 'todas') {
+      filteredCards = filteredCards.filter(
+        (card) => card.cardRare === searchByRarity,
+      );
+    }
+    if (searchByTrunfo) {
+      filteredCards = filteredCards.filter(
+        ({ cardTrunfo }) => cardTrunfo,
+      );
+    }
 
     return (
       <div>
@@ -125,24 +144,23 @@ class App extends React.Component {
         <h2>Todas as Cartas</h2>
         <div>
           {
-            cards.filter((search) => search.cardName.includes(searchByName))
-              .map((card) => (
-                <div key={ card.cardName }>
-                  <Card { ...card } />
-                  <button
-                    type="button"
-                    data-testid="delete-button"
-                    onClick={ () => this.removeCard(card) }
-                  >
-                    Excluir
-                  </button>
-                </div>
-              ))
+            filteredCards.map((card) => (
+              <div key={ card.cardName }>
+                <Card { ...card } />
+
+                <button
+                  type="button"
+                  data-testid="delete-button"
+                  onClick={ () => this.removeCard(card) }
+                >
+                  Excluir
+                </button>
+              </div>
+            ))
           }
           <Filter onInputChange={ this.handleInputChange } />
         </div>
       </div>
-
     );
   }
 }
