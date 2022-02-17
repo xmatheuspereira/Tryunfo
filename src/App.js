@@ -87,6 +87,21 @@ class App extends React.Component {
     }
   }
 
+  // Ref. https://cursos.alura.com.br/forum/topico-erro-ao-tentar-remover-item-da-tabela-117732
+  removeCard = (index) => {
+    const { cards } = this.state;
+
+    this.setState({
+      cards: cards.filter((card) => (card !== index)),
+    });
+
+    if (index.cardTrunfo === true) {
+      this.setState({
+        hasTrunfo: false,
+      });
+    }
+  }
+
   render() {
     const { cards } = this.state;
 
@@ -101,8 +116,20 @@ class App extends React.Component {
         <h2>Pré-visualização</h2>
         <Card { ...this.state } />
         <div>
-          <h2>Todas as cartas</h2>
-          { cards.map((card) => <Card key={ card.cardName } { ...card } />) }
+          {
+            cards.map((card) => (
+              <div key={ card.cardName }>
+                <Card { ...card } />
+                <button
+                  type="button"
+                  data-testid="delete-button"
+                  onClick={ () => this.removeCard(card) }
+                >
+                  Excluir
+                </button>
+              </div>
+            ))
+          }
         </div>
       </div>
     );
